@@ -64,7 +64,7 @@ public class MatchServiceImpl implements MatchService {
 
                 matches.add(match1);
 //               update the match in database
-                updateMatchInDB();
+//                updateMatchInDB();
 
                 updateMatch(match1);
 
