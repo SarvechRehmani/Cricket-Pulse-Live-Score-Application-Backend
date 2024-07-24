@@ -11,5 +11,7 @@ public interface MatchService {
     List<Match> getAllMatches();
 //    Get Live Matches
     List<Match> getLiveMatches();
-    List<Map<String, String>> getPointTable();
+//    List<List<String>> getPointTable();
+
+    public List<List<String>> getCWC2023PointTable();
 }

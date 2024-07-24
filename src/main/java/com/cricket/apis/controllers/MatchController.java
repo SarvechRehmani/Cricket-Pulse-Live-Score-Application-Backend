@@ -30,4 +30,9 @@ public class MatchController {
         return new ResponseEntity<>(this.matchService.getLiveMatches(), HttpStatus.OK);
     }
 
+    @GetMapping("wc23-point-table")
+    public ResponseEntity<List<List<String>>> getPointTable2K23WC(){
+        return new ResponseEntity<>(this.matchService.getCWC2023PointTable(), HttpStatus.OK);
+    }
+
 }
