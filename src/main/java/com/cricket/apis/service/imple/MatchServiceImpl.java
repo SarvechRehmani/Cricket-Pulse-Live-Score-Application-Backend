@@ -24,8 +24,12 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<Match> getAllMatches() {
-        return this.matchRepo.findAll();
+    public MatchResponse getAllMatches() {
+        MatchResponse response =  new MatchResponse("Fetched matches from DB.",this.matchRepo.findAll());
+        if(response.getMatchList().isEmpty()){
+            response.setMsg("No Match available in DB.");
+        }
+        return response;
     }
 
     @Override
@@ -35,13 +39,17 @@ public class MatchServiceImpl implements MatchService {
             String url = "https://www.cricbuzz.com/cricket-match/live-scores";
             Document document = Jsoup.connect(url).get();
             Elements liveScoreElements = document.select("div.cb-mtch-lst.cb-tms-itm");
+
             for (Element match : liveScoreElements) {
                 HashMap<String, String> liveMatchInfo = new LinkedHashMap<>();
+
                 String teamsHeading = match.select("h3.cb-lv-scr-mtch-hdr").select("a").text();
                 String matchNumberVenue = match.select("span").text();
                 Elements matchBatTeamInfo = match.select("div.cb-hmscg-bat-txt");
+
                 String battingTeam = matchBatTeamInfo.select("div.cb-hmscg-tm-nm").text();
                 String score = matchBatTeamInfo.select("div.cb-hmscg-tm-nm+div").text();
+
                 Elements bowlTeamInfo = match.select("div.cb-hmscg-bwl-txt");
                 String bowlTeam = bowlTeamInfo.select("div.cb-hmscg-tm-nm").text();
                 String bowlTeamScore = bowlTeamInfo.select("div.cb-hmscg-tm-nm+div").text();

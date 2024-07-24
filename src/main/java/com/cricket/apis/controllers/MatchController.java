@@ -22,7 +22,7 @@ public class MatchController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<Match>> getAllMatches(){
+    public ResponseEntity<MatchResponse> getAllMatches(){
         return new ResponseEntity<>(this.matchService.getAllMatches(), HttpStatus.OK);
     }
 

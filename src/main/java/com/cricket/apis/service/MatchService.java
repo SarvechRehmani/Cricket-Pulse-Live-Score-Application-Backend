@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface MatchService {
 //    Get All Matches
-    List<Match> getAllMatches();
+    MatchResponse getAllMatches();
 //    Get Live Matches
     MatchResponse getLiveMatches();
 //    List<List<String>> getPointTable();
