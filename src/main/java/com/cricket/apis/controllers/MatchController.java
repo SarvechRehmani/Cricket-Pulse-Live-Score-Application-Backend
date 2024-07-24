@@ -1,6 +1,7 @@
 package com.cricket.apis.controllers;
 
 import com.cricket.apis.entities.Match;
+import com.cricket.apis.helper.MatchResponse;
 import com.cricket.apis.service.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class MatchController {
     }
 
     @GetMapping("live")
-    public ResponseEntity<List<Match>> getLiveMatches(){
+    public ResponseEntity<MatchResponse> getLiveMatches(){
         return new ResponseEntity<>(this.matchService.getLiveMatches(), HttpStatus.OK);
     }
 

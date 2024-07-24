@@ -1,6 +1,7 @@
 package com.cricket.apis.service.imple;
 
 import com.cricket.apis.entities.Match;
+import com.cricket.apis.helper.MatchResponse;
 import com.cricket.apis.repositories.MatchRepo;
 import com.cricket.apis.service.MatchService;
 import org.jsoup.Jsoup;
@@ -28,7 +29,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<Match> getLiveMatches() {
+    public MatchResponse getLiveMatches() {
         List<Match> matches = new ArrayList<>();
         try {
             String url = "https://www.cricbuzz.com/cricket-match/live-scores";
@@ -60,9 +61,8 @@ public class MatchServiceImpl implements MatchService {
                 match1.setMatchLink(matchLink);
                 match1.setTextComplete(textComplete);
                 match1.setMatchStatus();
-
-
                 matches.add(match1);
+
 //               update the match in database
                 updateMatchInDB(match1);
 
@@ -70,8 +70,12 @@ public class MatchServiceImpl implements MatchService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return new MatchResponse("Error in getting Matches.",matches);
         }
-        return matches;
+        if(matches.isEmpty()){
+            return new MatchResponse("Currently no match is LIVE",matches);
+        }
+        return new MatchResponse("Fetched Live Matches.",matches);
     }
 
     private void updateMatchInDB(Match match1) {
