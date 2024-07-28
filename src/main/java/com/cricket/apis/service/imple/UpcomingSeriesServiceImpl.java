@@ -29,23 +29,22 @@ public class UpcomingSeriesServiceImpl implements UpcomingSeriesService {
             Elements upcomingSeriesElements = document.select("div.cb-col.cb-col-100.cb-plyr-tbody.cb-rank-hdr.cb-lv-main");
             for(Element series : upcomingSeriesElements){
                 String seriesHeading = series.select("h2.cb-lv-grn-strip.text-bold.cb-lv-scr-mtch-hdr").select("a").text();
-                Elements matches = series.select("div.cb-col-100.cb-col.cb-schdl.cb-billing-plans-text");
+
+                Elements matches = series.select("div.cb-mtch-lst.cb-col.cb-col-100.cb-tms-itm");
                 List<UpcomingMatch> upcomingMatches = new ArrayList<>();
-                for (Element match: matches){
-                    Elements matchDetail = match.select("div");
 
-                    String matchHeading = matchDetail.select("h3.cb-lv-scr-mtch-hdr.inline-block").select("a").text();
-                    String dateTimeVenue = matchDetail.select("div.text-gray").select("span").text();
-                    String matchNumber = matchDetail.select("span.text-gray").text();
-
-                    UpcomingMatch match1 = new UpcomingMatch(matchHeading,matchNumber,dateTimeVenue);
-                    upcomingMatches.add(match1);
+                for(Element match : matches){
+                    Elements matchContainer =  match.select("div.cb-col-100.cb-col.cb-schdl.cb-billing-plans-text");
+                    for(Element matchDetail:matchContainer){
+                        String matchHeading = matchDetail.select("div").select("h3.cb-lv-scr-mtch-hdr.inline-block").select("a").text();
+                        String matchNumberVenue = matchDetail.select("div").select("span.text-gray").text();
+                        UpcomingMatch match1 = new UpcomingMatch(matchHeading,matchNumberVenue);
+                        upcomingMatches.add(match1);
+                    }
                 }
-
                 UpcomingSeries upcomingSeries1 = new UpcomingSeries();
                 upcomingSeries1.setSeries(seriesHeading);
                 upcomingSeries1.setMatches(upcomingMatches);
-
                 upcomingSeries.add(upcomingSeries1);
             }
         }
